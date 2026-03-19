@@ -1,0 +1,49 @@
+<idea-plugin>
+    <id>com.qualimetry.ansible</id>
+    <name>Qualimetry Ansible Analyzer</name>
+    <vendor url="https://qualimetry.com">Qualimetry</vendor>
+
+    <description><![CDATA[
+    <p>Static analysis of Ansible playbook and task files (<code>.yml</code>, <code>.yaml</code>)
+    in IntelliJ IDEA, Rider, and other JetBrains IDEs. Also runs in JetBrains Qodana.</p>
+    <p>Powered by the same engine as the Qualimetry Ansible Analyzer for VS Code and SonarQube.</p>
+    <ul>
+      <li>70+ rules covering syntax, style, security, best practices, and complexity</li>
+      <li>Real-time analysis as you edit</li>
+      <li>Works in IntelliJ IDEA, Rider, and JetBrains Qodana</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <localInspection
+                groupName="Qualimetry Ansible"
+                displayName="Qualimetry Ansible Analysis"
+                shortName="QualimetryAnsibleInspection"
+                enabledByDefault="true"
+                level="WARNING"
+                implementationClass="com.qualimetry.intellij.ansible.AnsibleInspection"/>
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.qualimetry.intellij.ansible.AnsibleAnalyzerConfigurable"
+                id="com.qualimetry.ansible.settings"
+                displayName="Qualimetry Ansible Analyzer"/>
+
+        <applicationService
+                serviceImplementation="com.qualimetry.intellij.ansible.AnsibleAnalyzerSettings"/>
+
+        <notificationGroup id="Qualimetry Ansible" displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <group id="Qualimetry.Ansible.Tools" text="Qualimetry Ansible" popup="true">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <action id="Qualimetry.Ansible.ImportFromSonarQube"
+                    class="com.qualimetry.intellij.ansible.ImportFromSonarQubeAction"
+                    text="Import Rules from SonarQube"
+                    description="Import active Ansible rules from a SonarQube quality profile"/>
+        </group>
+    </actions>
+</idea-plugin>
